@@ -1,0 +1,23 @@
+{
+  "name": "cuentaganado",
+  "version": "1.0.0",
+  "description": "Cuentaganado para censos de transito",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/espisano/cuentaganado.git"
+  },
+  "author": "Ernesto Salvador Pisano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/espisano/cuentaganado/issues"
+  },
+  "homepage": "https://github.com/espisano/cuentaganado#readme",
+  "dependencies": {
+    "@popperjs/core": "^2.9.2",
+    "bootstrap": "^5.0.2"
+  }
+}
