@@ -24,11 +24,13 @@ function crearInputVehiculo(indice){
       
         const $label = document.createElement('label');
         $label.textContent = 'Tipo de vehiculo #: ' + (indice + 1);
+        $label.style.padding = "00px 10px 00px 00px"
         
         const $input = document.createElement('input');
         $input.type = 'text';
         $input.id = 'vehiculo#'+(indice + 1)
-              
+        $input.placeholder= '...'
+                      
         $div.appendChild($label);
         $div.appendChild($input);
       
@@ -68,13 +70,14 @@ function crearFilas(cantidadVehiculos){
     const $botoneraCenso = document.querySelector('#botonera-censo');
    const $fila = document.createElement('div');
     $fila.className = 'row';
+    $fila.classList.add('row-botonera')
     $fila.id = 'fila' + (i + 1)
     $botoneraCenso.appendChild($fila);
   }
 }
 
 function listaFilas(){
-  const $filas = document.querySelectorAll('.row');
+  const $filas = document.querySelectorAll('.row-botonera');
   const filas = [];
 
   for (let i = 0; i < $filas.length; i++) {
@@ -97,7 +100,11 @@ function crearRamas(cantidadVehiculos){
   for (let i = 0; i < cantidadVehiculos; i++){        
     const $rama = document.createElement('div');
     $rama.className = 'col' 
-    $rama.classList.add('guia')   
+    $rama.classList.add('guia') 
+    $rama.classList.add('d-grid')  
+    $rama.classList.add('gap-2')
+    $rama.classList.add('col-3')
+    $rama.classList.add('mx-auto')
     let filas = document.querySelector((`#${$filas[i]}`))    
     filas.appendChild($rama)
     
@@ -111,6 +118,11 @@ function crearBotones(cantidadVehiculos){
     const $boton = document.createElement('button');
     $boton.className = 'boton-censo';
     $boton.classList.add('boton-guia');
+    $boton.classList.add('btn')
+    $boton.classList.add('btn-default')
+    $boton.type = 'button';
+    $boton.classList.add('btn');
+    $boton.classList.add('btn-primary');
     $boton.textContent = listaVehiculos[i];
     let $contador = document.createElement('input');    
     $contador.className = 'contador-censo'
@@ -167,7 +179,7 @@ let $contador = obtenerListaContador();
   }
 
 function ocultarFormularioBienvenida() {
-    document.querySelector('#formulario-bienvenida').className = 'd-none';
+    document.querySelector('#formulario-bienvenida').classList.add('d-none');
 }
 
 function mostrarInputVehiculos(){
@@ -175,9 +187,9 @@ function mostrarInputVehiculos(){
 }
 
 function ocultarInputVehiculos(){
-  document.querySelector('#formulario-vehiculos').className = 'd-none'
+  document.querySelector('#formulario-vehiculos').classList.add('d-none')
 }
 
 function mostrarBotonera(){
-  document.querySelector('#botonera-censo').className = ''
+  document.querySelector('#botonera-censo').classList.remove('d-none')
 }
