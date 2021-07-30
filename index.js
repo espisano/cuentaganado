@@ -234,6 +234,71 @@ function mostrarBotonera(){
   document.querySelector('#botonera-container').classList.remove('d-none')
 }
 
+function resetear () {
+  const $inputs = document.querySelectorAll('.contador-censo')
+  for (let i = 0; i < $inputs.length; i++){
+        $inputs[i].value = 0
+  }
+}
+
+// function juntarListas(){
+// const listaTipos = obtenerListaTipos()
+// const listaNumeros = obtenerListaNumeros()
+
+ 
+// }
+
+function obtenerListaTipos(){
+const $listaTipos = document.querySelectorAll('.boton-censo');
+const listaTipos = [];
+for (let i = 0; i < $listaTipos.length; i++) {
+  listaTipos.push($listaTipos[i].textContent);
+  }
+  return listaTipos;
+}
+
+function obtenerListaNumeros(){
+  const $listaNumeros = document.querySelectorAll('.contador-censo');
+  const listaNumeros = [];
+
+for (let i = 0; i < $listaNumeros.length; i++) {
+  listaNumeros.push($listaNumeros[i].value);
+  }
+  return listaNumeros;
+} 
+
+document.querySelector('#resetear').onclick = function(event){
+  resetear();
+
+  event.preventDefault();
+}
+
+document.querySelector('#guardar-resetear').onclick = function(event){
+crearTabla();
+crearTituloTabla();
+crearContenidoTabla();
+guardarValores();
+removerGuias();
+resetear();
+
+event.preventDefault();
+
+}
+
+
+function crearTabla(){
+  const $botoneraContainer = document.querySelector('#botonera-container')
+  const $tabla = document.createElement('table')
+  $tabla.className = 'tabla-guia'
+  const $thead = document.createElement('thead')
+  const $tbody = document.createElement('tbody')
+  $tabla.appendChild($thead)
+  $tabla.appendChild($tbody)
+  $botoneraContainer.appendChild($tabla)
+  
+  
+}
+
 function crearTituloTabla(){
   const $cantidadRamas = document.querySelector('#formulario-bienvenida').ramas;
   const cantidadRamas = Number($cantidadRamas.value);
