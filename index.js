@@ -31,7 +31,7 @@ function crearInputVehiculo(indice){
 
         const $mensajeError = document.createElement('div')
         $mensajeError.className= 'invalid-feedback'
-        $mensajeError.textContent = "El campo debe tener entre 1 y 8 caracteres"
+        $mensajeError.textContent = "El campo debe tener entre 1 y 10 caracteres"
       
         const $label = document.createElement('label');
         $label.textContent = 'Tipo de vehiculo #: ' + (indice + 1);
