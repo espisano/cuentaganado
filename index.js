@@ -1,15 +1,21 @@
 document.querySelector('#datos-boton').onclick = function(event) {
     const $cantidadVehiculos = document.querySelector('#cantidad-vehiculos');
     const cantidadVehiculos = Number($cantidadVehiculos.value);
-    const $cantidadRamas = document.querySelector('#cantidad-ramas');
-    const cantidadRamas = Number($cantidadRamas.value);  
+    
+    if (!/^[0-9]{1,2}$/.test($cantidadVehiculos.value) ){
+      $cantidadVehiculos.classList.add('is-invalid')
 
-    crearInputVehiculos(cantidadVehiculos);
-    ocultarFormularioBienvenida();
-    mostrarInputVehiculos(); 
+      event.preventDefault();
+    }
 
-    event.preventDefault(); 
+    else{
+      $cantidadVehiculos.classList.remove('is-invalid')
+      crearInputVehiculos(cantidadVehiculos);
+      ocultarFormularioBienvenida();
+      mostrarInputVehiculos(); 
 
+      event.preventDefault(); 
+    }
 }
 
 function crearInputVehiculos(cantidadVehiculos) {
@@ -21,6 +27,11 @@ function crearInputVehiculos(cantidadVehiculos) {
 function crearInputVehiculo(indice){
         const $div = document.createElement('div');
         $div.className = 'tipoVehiculo';
+        //$div.classList.add('')
+
+        const $mensajeError = document.createElement('div')
+        $mensajeError.className= 'invalid-feedback'
+        $mensajeError.textContent = "El campo debe tener entre 1 y 8 caracteres"
       
         const $label = document.createElement('label');
         $label.textContent = 'Tipo de vehiculo #: ' + (indice + 1);
@@ -28,11 +39,14 @@ function crearInputVehiculo(indice){
         
         const $input = document.createElement('input');
         $input.type = 'text';
-        $input.id = 'vehiculo#'+(indice + 1)
+        $input.id = 'vehiculo'+(indice + 1)
         $input.placeholder= '...'
+        //$input.className = 'form-control'
+        
                       
         $div.appendChild($label);
         $div.appendChild($input);
+        $div.appendChild($mensajeError);
       
         const $tiposVehiculos = document.querySelector('#tipos-vehiculos');
         $tiposVehiculos.appendChild($div);
@@ -41,10 +55,31 @@ function crearInputVehiculo(indice){
 document.querySelector('#comenzar-boton').onclick = function(event) {
   const $cantidadVehiculos = document.querySelector('#cantidad-vehiculos');
   const cantidadVehiculos = Number($cantidadVehiculos.value);
-  const $cantidadRamas = document.querySelector('#cantidad-ramas');
-  const cantidadRamas = Number($cantidadRamas.value);  
+  const $cantidadRamas = document.querySelector('#formulario-bienvenida').ramas;
+  const cantidadRamas = Number($cantidadRamas.value);
+  const $formularioVehiculos = document.querySelector('#formulario-vehiculos')  
+  const $input = $formularioVehiculos.querySelectorAll('input')
+  
+  let x = 0
 
-  obtenerListaVehiculos() ;
+  for (let i = 0; i < $input.length; i++){
+    if ($input[i].value <= 0 || $input[i].value.length >10){
+      $input[i].classList.add('border')
+      $input[i].classList.add('border-danger')
+      $input[i].classList.add('is-invalid')
+      x += 1
+
+      event.preventDefault()
+        }
+    else {
+      $input[i].classList.remove('border')
+      $input[i].classList.remove('border-danger')
+      $input[i].classList.remove('is-invalid')
+
+    }
+  }
+  if (x === 0){
+  // obtenerListaVehiculos() ;
   crearFilas(cantidadVehiculos);     
   crearGrilla (cantidadVehiculos, cantidadRamas);    
   ordenarId(cantidadVehiculos, cantidadRamas);
@@ -52,6 +87,11 @@ document.querySelector('#comenzar-boton').onclick = function(event) {
   ocultarInputVehiculos();
   mostrarBotonera();    
   event.preventDefault(); 
+}
+else {
+  return 'vacio'
+}
+
   
 }
 
@@ -191,5 +231,77 @@ function ocultarInputVehiculos(){
 }
 
 function mostrarBotonera(){
-  document.querySelector('#botonera-censo').classList.remove('d-none')
+  document.querySelector('#botonera-container').classList.remove('d-none')
 }
+
+function crearTituloTabla(){
+  const $cantidadRamas = document.querySelector('#formulario-bienvenida').ramas;
+  const cantidadRamas = Number($cantidadRamas.value);
+  const $tabla = document.querySelector('.tabla-guia')
+  const $thead = $tabla.querySelector('thead');
+  const $tr = document.createElement('tr');
+  for (let i = 0; i < cantidadRamas; i++){
+    const $numeroRama = document.createElement('th')
+    $numeroRama.setAttribute("scope", "col");
+    $numeroRama.textContent = 'Rama #: ' + (i + 1);
+    $tr.appendChild($numeroRama)
+    
+
+  }
+  $thead.appendChild($tr)
+}
+function crearContenidoTabla(){
+  const $cantidadVehiculos = document.querySelector('#cantidad-vehiculos');
+  const cantidadVehiculos = Number($cantidadVehiculos.value);
+  for (let i = 0; i < cantidadVehiculos; i++){
+    crearFilaTabla()
+  }
+}
+
+function crearFilaTabla(){
+  const $cantidadRamas = document.querySelector('#formulario-bienvenida').ramas;
+  const cantidadRamas = Number($cantidadRamas.value); 
+  const $tabla = document.querySelector('.tabla-guia')
+  const $tbody = $tabla.querySelector('tbody');
+  const $tr = document.createElement('tr');
+  for (let i = 0; i < cantidadRamas; i++){
+    const $valoresGuardados = document.createElement('td')
+    $valoresGuardados.className = 'valores-guia'
+    $tr.appendChild($valoresGuardados)
+    
+  }
+  $tbody.appendChild($tr)
+  
+}
+
+function guardarValores() {
+  const $listaTablas = document.querySelectorAll('.valores-guia');
+  const listaTipos = obtenerListaTipos();
+  const listaNumeros = obtenerListaNumeros();
+  for (let i = 0; i < $listaTablas.length; i++){
+    $listaTablas[i].textContent = (listaTipos[i]) + ": " + (listaNumeros[i])
+  }
+}
+
+function inputError(){
+  const $input = document.querySelector('input')
+  const input = $input.value;
+  if (input.length > 0 && input.length < 11){
+    return;
+
+  }
+  else{
+    $input.classList.add('border')
+    $input.classList.add('border-danger')
+  }
+}
+
+function removerGuias(){
+  const $tabla = document.querySelector('.tabla-guia');
+  $tabla.classList.remove('tabla-guia')
+  const $valores = document.querySelectorAll('.valores-guia');
+  for (let i = 0; i < $valores.length; i++){
+  $valores[i].classList.remove('valores-guia')
+  }
+}
+
